@@ -29,6 +29,55 @@ let getDetailPage = async (req, res) => {
     return res.render('DetailPage.ejs', { dataUser: rows });
 }
 
+let postCreateNewUser = async (req, res) => {
+
+    let { NameUser, Age, Email, Address, Phone } = req.body;
+    let img = "";
+    if (req.fileValidationError) {
+
+        return res.send(req.fileValidationError);
+    }
+    else if (req.file) {
+        img = req.file.filename;
+        //return res.send('Please select an image to upload');
+    }
+
+    // // Display uploaded image for user validation
+    // res.send(`${req.file.filename}`);
+    // // });
+
+
+
+    await pool.execute('insert into nodejsbasicdb(NameUser, Age, Email, Address,Phone,img) values (?, ?, ?,?,?,?)',
+        [NameUser, Age, Email, Address, Phone, img]);
+
+    return res.redirect('/testpage')
+}
+
+let postUdateUser = async (req, res) => {
+
+    let { NameUser, Age, Email, Address, Phone, id } = req.body;
+    const [rows, fields] = await pool.execute(`UPDATE nodejsbasicdb SET NameUser = ?, Age=?, Email=?, Address=?, Phone=? WHERE id=?`, [NameUser, Age, Email, Address, Phone, id]);
+    return res.redirect('/testpage')
+}
+let postDeleteUser = async (req, res) => {
+    let id = req.body.id;
+    await pool.execute(`DELETE FROM nodejsbasicdb WHERE id=?`, [id]);
+    return res.redirect('/testpage');
+}
+let handleUploadFile = async (req, res) => {
+    console.log("Co vo day")
+    if (req.fileValidationError) {
+
+        return res.send(req.fileValidationError);
+    }
+    else if (!req.file) {
+        return res.send('Please select an image to upload');
+    }
+    // Display uploaded image for user validation
+    res.send(`${req.file.filename}`);
+    // });
+}
 
 
 
@@ -41,5 +90,8 @@ module.exports =
     getTourspage,
     getDestinationspage,
     getDetailPage,
-
+    postCreateNewUser,
+    postUdateUser,
+    postDeleteUser,
+    handleUploadFile,
 }

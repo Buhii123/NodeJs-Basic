@@ -11,24 +11,29 @@
 </head>
 
 <body>
-    <h1>
-        <%=dataUser[0].id %>
-    </h1>
-    <h1>
-        <%=dataUser[0].NameUser%>
-    </h1>
-    <h1>
-        <%=dataUser[0].Age%>
-    </h1>
-    <h1>
-        <%=dataUser[0]. Email%>
-    </h1>
-    <h1>
-        <%=dataUser[0]. Address%>
-    </h1>
-    <h1>
-        <%=dataUser[0]. Phone%>
-    </h1>
+    <div>
+        <form action="/update-user/<%=dataUser[0].id%>" method="post">
+
+            <label>NameUser:</label><br>
+            <input type="text" id="NameUser" name="NameUser" value="<%=dataUser[0].NameUser%>"><br>
+
+            <label>Age:</label><br>
+            <input type="text" id="Age" name="Age" value="<%=dataUser[0].Age%>"><br>
+
+            <label>Email:</label><br>
+            <input type="text" id="Email" name="Email" value="<%=dataUser[0].Email%>"><br>
+
+            <label>Address:</label><br>
+            <input type="text" id="Address" name="Address" value="<%=dataUser[0].Address%>"><br>
+
+            <label>Phone:</label><br>
+            <input type="text" id="Phone" name="Phone" value="<%=dataUser[0].Phone%>"><br><br>
+            <input type="text" hidden name="id" value="<%=dataUser[0].id%>">
+
+            <input type="submit" value="Save">
+            <hr />
+            <img src="/images/<%=dataUser[0].img%>" width="100">
+        </form>
 </body>
 
 </html>
